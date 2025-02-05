@@ -1,5 +1,6 @@
 package com.lemori.traffic_violations.traffic_violations_api.api.mappers;
 
+import com.lemori.traffic_violations.traffic_violations_api.api.dtos.PageDTO;
 import com.lemori.traffic_violations.traffic_violations_api.api.dtos.vehicle.VehicleInputDTO;
 import com.lemori.traffic_violations.traffic_violations_api.api.dtos.vehicle.VehicleOutputDTO;
 import com.lemori.traffic_violations.traffic_violations_api.api.dtos.vehicle.VehicleUpdateInputDTO;
@@ -27,12 +28,18 @@ public interface VehicleMapper {
     @Mapping(source = "ownerId", target = "owner.id")
     Vehicle vehicleUpdateInputToVehicle(VehicleUpdateInputDTO vehicle);
 
-    default Page<VehicleOutputDTO> map(Page<Vehicle> vehiclesPage) {
+    default PageDTO<VehicleOutputDTO> map(Page<Vehicle> vehiclesPage) {
         List<VehicleOutputDTO> content = vehiclesPage.getContent()
                 .stream()
                 .map(this::vehicleToVehicleOutputDTO)
                 .collect(Collectors.toList());
-        System.out.println(vehiclesPage.getContent());
-        return new PageImpl<>(content, vehiclesPage.getPageable(), vehiclesPage.getTotalElements());
+
+        return new PageDTO<>(
+                content,
+                vehiclesPage.getNumber(),
+                vehiclesPage.getSize(),
+                vehiclesPage.getTotalElements(),
+                vehiclesPage.getTotalPages()
+        );
     }
 }

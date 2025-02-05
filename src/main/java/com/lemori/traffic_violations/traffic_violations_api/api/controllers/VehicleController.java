@@ -1,5 +1,6 @@
 package com.lemori.traffic_violations.traffic_violations_api.api.controllers;
 
+import com.lemori.traffic_violations.traffic_violations_api.api.dtos.PageDTO;
 import com.lemori.traffic_violations.traffic_violations_api.api.dtos.vehicle.VehicleInputDTO;
 import com.lemori.traffic_violations.traffic_violations_api.api.dtos.vehicle.VehicleOutputDTO;
 import com.lemori.traffic_violations.traffic_violations_api.api.dtos.vehicle.VehicleUpdateInputDTO;
@@ -27,7 +28,7 @@ public class VehicleController {
     private final VehicleService vehicleService;
 
     @GetMapping("")
-    public Page<VehicleOutputDTO> getVehiclesPaginated(
+    public PageDTO<VehicleOutputDTO> getVehiclesPaginated(
             @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable
     ) {
         return VehicleMapper.INSTANCE.map(
