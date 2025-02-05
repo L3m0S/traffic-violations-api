@@ -65,7 +65,7 @@ public class VehicleService {
                 .orElseThrow(() -> new ApiException("Vehicle with given ID not found!", 404));
     }
 
-    public Page<Vehicle> getVehiclesPaginated(Pageable pageable) {
+    public Page<Vehicle> findAll(Pageable pageable) {
         return vehicleRepository.findAll(pageable);
     }
 }

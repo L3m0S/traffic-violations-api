@@ -28,11 +28,11 @@ public class VehicleController {
     private final VehicleService vehicleService;
 
     @GetMapping("")
-    public PageDTO<VehicleOutputDTO> getVehiclesPaginated(
+    public PageDTO<VehicleOutputDTO> findAll(
             @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable
     ) {
         return VehicleMapper.INSTANCE.map(
-                vehicleService.getVehiclesPaginated(pageable)
+                vehicleService.findAll(pageable)
         );
     }
 
