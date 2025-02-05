@@ -9,6 +9,9 @@ import com.lemori.traffic_violations.traffic_violations_api.domain.services.Vehi
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,12 +27,11 @@ public class VehicleController {
     private final VehicleService vehicleService;
 
     @GetMapping("")
-    public Page<VehicleOutputDTO> getVehiclesPaginated(@RequestParam Map<String,String> queryParams) {
+    public Page<VehicleOutputDTO> getVehiclesPaginated(
+            @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable
+    ) {
         return VehicleMapper.INSTANCE.map(
-                vehicleService.getVehiclesPaginated(
-                        Integer.parseInt(queryParams.get("pageNumber")),
-                        Integer.parseInt(queryParams.get("pageSize"))
-                )
+                vehicleService.getVehiclesPaginated(pageable)
         );
     }
 

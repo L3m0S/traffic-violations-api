@@ -8,14 +8,10 @@ import com.lemori.traffic_violations.traffic_violations_api.domain.repositories.
 import com.lemori.traffic_violations.traffic_violations_api.domain.repositories.VehicleRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -65,11 +61,11 @@ public class VehicleService {
     }
 
     public Vehicle findById(Long vehicleId) {
-        return vehicleRepository.findById(vehicleId).orElseThrow(() -> new ApiException("Vehicle with given ID not found!", 404));
+        return vehicleRepository.findById(vehicleId)
+                .orElseThrow(() -> new ApiException("Vehicle with given ID not found!", 404));
     }
 
-    public Page<Vehicle> getVehiclesPaginated(int pageNumber, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+    public Page<Vehicle> getVehiclesPaginated(Pageable pageable) {
         return vehicleRepository.findAll(pageable);
     }
 }
