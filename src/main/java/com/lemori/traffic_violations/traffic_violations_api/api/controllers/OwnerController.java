@@ -1,15 +1,19 @@
 package com.lemori.traffic_violations.traffic_violations_api.api.controllers;
 
+import com.lemori.traffic_violations.traffic_violations_api.api.dtos.PageDTO;
+import com.lemori.traffic_violations.traffic_violations_api.api.mappers.OwnerMapper;
 import com.lemori.traffic_violations.traffic_violations_api.domain.models.Owner;
 import com.lemori.traffic_violations.traffic_violations_api.domain.repositories.OwnerRepository;
 import com.lemori.traffic_violations.traffic_violations_api.domain.services.OwnerService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @AllArgsConstructor
 @RestController
@@ -20,8 +24,12 @@ public class OwnerController {
     private OwnerService ownerService;
 
     @GetMapping("")
-    public List<Owner> listOwners() {
-        return ownerRepository.findAll();
+    public PageDTO<Owner> findAll(
+            @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable
+    ) {
+        return OwnerMapper.INSTANCE.map(
+                ownerService.findAll(pageable)
+        );
     }
 
     @GetMapping("/{ownerId}")

@@ -4,6 +4,8 @@ import com.lemori.traffic_violations.traffic_violations_api.domain.exceptions.Ap
 import com.lemori.traffic_violations.traffic_violations_api.domain.models.Owner;
 import com.lemori.traffic_violations.traffic_violations_api.domain.repositories.OwnerRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,5 +31,9 @@ public class OwnerService {
         }
         ownerRepository.deleteById(ownerId);
         return;
+    }
+
+    public Page<Owner> findAll(Pageable pageable) {
+        return ownerRepository.findAll(pageable);
     }
 }
